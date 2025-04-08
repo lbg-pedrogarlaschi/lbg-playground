@@ -3,8 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import IconButton from './IconButton';
 import ButtonType  from './ButtonType';
 import { ThemeProvider } from 'styled-components/native';
-import themeLloyds from '../../style-tokens/_re-imaginedlloyds.json';
-import Icons from './Icons';
+import themeLloyds from '../../style-tokens/re-imaginedlloyds.json';
 
 const meta = {
   component: IconButton,

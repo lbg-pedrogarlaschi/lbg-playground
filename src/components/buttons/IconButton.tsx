@@ -5,8 +5,8 @@ import Icons from "./Icons";
 
 
 export const Wrapper = styled.View<{ type: ButtonType, pressed: boolean, brandAccent: boolean, disabled: boolean , size:string }>`
-    height: ${props => getButtonSize(props)};
-    width: ${props => getButtonSize(props)};
+    height: ${props => getButtonSize(props)}px;
+    width: ${props => getButtonSize(props)}px;
     
     max-width: 375px;
     justify-content: center;

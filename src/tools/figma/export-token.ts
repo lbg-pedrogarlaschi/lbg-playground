@@ -6,8 +6,8 @@ const loadTheme = (themeId)=>{
     return new Promise<any>((resolve) =>{
 
         const path = `${__dirname}/../../../figma-tokens/themes.json`
+        console.log('path: ' , path);
         const themes = JSON.parse(fs.readFileSync(path, 'utf8'));
-        const theme = {};
         themes.forEach(theme => {
 
                 if(theme.id === themeId)
@@ -18,11 +18,8 @@ const loadTheme = (themeId)=>{
 }
 
 const fixColor = (value , factor)=>{
-
     const reult = (Math.round((factor * value) * 1000) / 1000);
-
     return reult;
-
 }
 
 const parseValue = (value : any , type) : any=>{
@@ -44,17 +41,11 @@ const parseValue = (value : any , type) : any=>{
 
 
 const saveTheme = async(theme)=>{
-
-
     return new Promise((resolve)=>{
-
         const obj = {};
         theme.variables.forEach(v => {
-            
-            if(!v.value || !v.value.value)return;
-
-
-            obj[v.varName] = parseValue(v.value.value , v.type);
+        
+            obj[v.varName] = parseValue(v.value , v.type);
         });
 
         const dir = `${__dirname}/../../../src/style-tokens/`;

@@ -3,12 +3,9 @@ import styled from "styled-components/native";
 import { useFonts } from 'expo-font';
 import ButtonType from "./ButtonType";
 
-import chevron_right_light from '../../../assets/icons/chevron_right_light.png';
-import chevron_right_dark from '../../../assets/icons/chevron_right_dark.png';
+import Icons from "../assets/Icons";
 
-
- export const Wrapper = styled.View<{ type: ButtonType, pressed: boolean, brandAccent: boolean, disabled: boolean }>`
-    height: 100%;
+export const Wrapper = styled.View<{ type: ButtonType, pressed: boolean, brandAccent: boolean, disabled: boolean }>`
     width: 100%;
     max-width: 375px;
     justify-content: center;
@@ -25,6 +22,9 @@ const Label = styled.Text<{ type: ButtonType, pressed: boolean, disabled: boolea
     text-align: center;
     color: ${props => getTextColor(props)};
     font-family: ${props => props.theme['--TypesStyle4Max135FontFamily']};
+    font-size:  ${props => `${props.theme['--TypesStyle4Max135FontSize']}px`};
+    text-decoration: ${props => getTextDecoration(props)};
+    font-weight: 700;
 `;
 
 const ActionButtonIcon = styled.Image<{ icon: boolean }>`
@@ -56,6 +56,8 @@ export interface ActionButtonProps {
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({ children, onClick, type = ButtonType.Primary, brandAccent = false, icon = false, disabled = false , iconRight = true }) => {
+
+
     const [fontsLoaded] = useFonts({
         'GT-Ultra': require('../../../assets/fonts/GT-Ultra-Median-Bold.ttf'),
     });
@@ -71,22 +73,22 @@ const ActionButton: React.FC<ActionButtonProps> = ({ children, onClick, type = B
     const getChevronIcon = ()=>{
 
         if(disabled)
-            return chevron_right_light;
+            return Icons.chevron_right_light;
 
         switch(type)
         {
             case ButtonType.Primary:
-                return chevron_right_light;
+                return Icons.chevron_right_light;
             case ButtonType.Secondary:
                 if(pressed)
-                    return chevron_right_light;
+                    return Icons.chevron_right_light;
                 else
-                    return chevron_right_dark;
+                    return Icons.chevron_right_dark;
             case ButtonType.Tertiary:
                 if(pressed)
-                    return chevron_right_light;
+                    return Icons.chevron_right_light;
                 else
-                    return chevron_right_dark;
+                    return Icons.chevron_right_dark;
         }
     }
 
@@ -94,18 +96,19 @@ const ActionButton: React.FC<ActionButtonProps> = ({ children, onClick, type = B
         <Wrapper type={type} pressed={pressed} brandAccent={brandAccent} disabled={disabled}>
             <PressableWrapper onPress={handlePress} onPressIn={handlePressIn} onPressOut={handlePressOut}>
                 <ActionButtonIcon source={getChevronIcon()} icon={(icon && !iconRight)} />
-                <Label type={type} pressed={pressed} disabled={disabled}>{children}</Label>
+                <Label type={type} pressed={pressed} disabled={disabled} brandAccent={brandAccent}>{children}</Label>
                 <ActionButtonIcon source={getChevronIcon()} icon={(icon && iconRight)} />
             </PressableWrapper>
         </Wrapper>
     );
 };
 
-// Helper functions
 const getBorderWidth = ({ type, brandAccent, disabled, theme }) => {
     if (brandAccent || disabled) return '0px';
+
     switch (type) {
         case ButtonType.Primary:
+            return '0px';
         case ButtonType.Secondary:
             return `${theme['--ComponentActionButtonBorderWidth']}px`;
         case ButtonType.Tertiary:
@@ -116,9 +119,11 @@ const getBorderWidth = ({ type, brandAccent, disabled, theme }) => {
 };
 
 const getBackgroundColor = ({ type, pressed, brandAccent, disabled, theme }) => {
+    
     if (disabled) return theme['--BackgroundActionDisabled'];
     if (brandAccent) return pressed ? theme['--ComponentBrandAccentButtonPrimaryBackgroundPressed'] : theme['--ComponentBrandAccentButtonPrimaryBackgroundDefault'];
     if (pressed) return theme['--BackgroundActionPressed'];
+
     switch (type) {
         case ButtonType.Primary:
             return theme['--BackgroundActionDefault'];
@@ -141,6 +146,17 @@ const getTextColor = ({ type, pressed, disabled, theme }) => {
             return theme['--TextActionDefault'];
         default:
             return theme['--TextActionInverseAlt01'];
+    }
+};
+
+const getTextDecoration = ({ type,brandAccent }) => {
+
+    if (brandAccent) return 'none';
+    switch (type) {
+        case ButtonType.Tertiary:
+            return 'underline';
+        default:
+            return 'none';
     }
 };
 

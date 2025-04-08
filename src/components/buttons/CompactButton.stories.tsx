@@ -1,9 +1,8 @@
 import React from 'react';
-//import { View } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import CompactButton from './CompactButton';
 import { ThemeProvider } from 'styled-components/native';
-import themeLloyds from '../../style-tokens/_re-imaginedlloyds.json';
+import themeLloyds from '../../style-tokens/re-imaginedlloyds.json';
 import ButtonType  from './ButtonType';
 
 const meta = {
