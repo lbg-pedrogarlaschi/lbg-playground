@@ -6,6 +6,7 @@ import ButtonType from "./ButtonType";
 import Icons from "../assets/Icons";
 
 export const Wrapper = styled.View<{ type: ButtonType, pressed: boolean, brandAccent: boolean, disabled: boolean }>`
+    
     width: 100%;
     max-width: 375px;
     justify-content: center;
@@ -75,6 +76,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({ children, onClick, type = B
         if(disabled)
             return Icons.chevron_right_light;
 
+        if(brandAccent)
+            return Icons.chevron_right_dark;
+
         switch(type)
         {
             case ButtonType.Primary:
@@ -135,9 +139,19 @@ const getBackgroundColor = ({ type, pressed, brandAccent, disabled, theme }) => 
     }
 };
 
-const getTextColor = ({ type, pressed, disabled, theme }) => {
+const getTextColor = ({ type, pressed, disabled, theme , brandAccent }) => {
     if (disabled) return theme['--TextActionDisabled'];
-    if (pressed) return theme['--TextActionPressedAlt01'];
+    if (pressed){
+
+        if(brandAccent)
+            return theme['--ComponentBrandAccentButtonPrimaryTextPressed'];   
+        else 
+            return theme['--TextActionPressedAlt01'];       
+    }
+   
+    if(brandAccent) return theme['--ComponentBrandAccentButtonPrimaryTextDefault'];
+    
+
     switch (type) {
         case ButtonType.Primary:
             return theme['--TextActionInverseAlt01'];
@@ -159,6 +173,5 @@ const getTextDecoration = ({ type,brandAccent }) => {
             return 'none';
     }
 };
-
 
 export default ActionButton;
